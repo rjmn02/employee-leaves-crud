@@ -9,20 +9,20 @@ datasource db {
 
 model Department {
   id   Int      @id @default(autoincrement())
-  name String[] @db.VarChar(255)
+  name String @db.VarChar(255)
   Role Role[]
 }
 
 model Employee {
   id             Int          @id @default(autoincrement())
-  firstName      String[]     @db.VarChar(255)
+  firstName      String     @db.VarChar(255)
   middleName     String?      @db.VarChar(255)
-  lastName       String[]     @db.VarChar(255)
-  email          String[]     @db.VarChar(255)
-  addressLine    String[]     @db.VarChar(255)
-  city           String[]     @db.VarChar(255)
-  province       String[]     @db.VarChar(255)
-  country        String[]     @db.VarChar(255)
+  lastName       String     @db.VarChar(255)
+  email          String     @db.VarChar(255)
+  addressLine    String     @db.VarChar(255)
+  city           String     @db.VarChar(255)
+  province       String     @db.VarChar(255)
+  country        String     @db.VarChar(255)
   roleId         Int
   employeeTypeId Int
   EmployeeType   EmployeeType @relation(fields: [employeeTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -33,7 +33,7 @@ model Employee {
 
 model EmployeeType {
   id       Int        @id @default(autoincrement())
-  name     String[]   @db.VarChar(255)
+  name     String   @db.VarChar(255)
   Employee Employee[]
 }
 
@@ -52,19 +52,19 @@ model Leave {
 
 model LeaveStatus {
   id    Int      @id @default(autoincrement())
-  name  String[] @db.VarChar(255)
+  name  String @db.VarChar(255)
   Leave Leave[]
 }
 
 model LeaveType {
   id    Int      @id @default(autoincrement())
-  name  String[] @db.VarChar(255)
+  name  String @db.VarChar(255)
   Leave Leave[]
 }
 
 model Role {
   id           Int        @id @default(autoincrement())
-  title        String[]   @db.VarChar(255)
+  title        String   @db.VarChar(255)
   departmentId Int
   Employee     Employee[]
   Department   Department @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
