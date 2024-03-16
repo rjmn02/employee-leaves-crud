@@ -9,7 +9,7 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
     },
     include: {
       Role: {
-        select: {
+        include: {
           Department: true
         }
       },

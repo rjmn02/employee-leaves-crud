@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   const employees = await prisma.employee.findMany({
     include: {
       Role: {
-        select: {
+        include: {
           Department: true
         }
       },

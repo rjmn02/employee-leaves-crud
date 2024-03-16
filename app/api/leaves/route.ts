@@ -5,17 +5,17 @@ export async function GET(req: NextRequest) {
   const leaves = await prisma.leave.findMany({
     include: {
       Employee: {
-        select: {
+        include: {
           Role: {
-            select: {
+            include: {
               Department: true
             }
           },
-          EmployeeType: true, 
+          EmployeeType: true
         }
       },
       LeaveStatus: true,
-      LeaveType: true,
+      LeaveType: true
     }
   });
   

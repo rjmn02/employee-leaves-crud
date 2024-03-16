@@ -8,13 +8,13 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
     },
     include: {
       Employee: {
-        select: {
+        include: {
           Role: {
-            select: {
+            include: {
               Department: true
             }
           },
-          EmployeeType: true, 
+          EmployeeType: true
         }
       },
       LeaveStatus: true,
