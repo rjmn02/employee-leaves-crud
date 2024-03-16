@@ -3,11 +3,14 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 IMPORTANT PRISMA COMMANDS:
+
+```bash
 npx prisma db pull = pull tables from db
 npx prisma db push = push tables made in nextjs to db
 npx prisma generate
 npx prisma migrate dev --name init 
 npx prisma studio = check db values and tables. murag pgadmin.
+```
 
 First, run the development server:
 
