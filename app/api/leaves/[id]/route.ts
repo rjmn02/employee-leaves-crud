@@ -17,6 +17,7 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
           EmployeeType: true
         }
       },
+      Signatory: true,
       LeaveStatus: true,
       LeaveType: true,
     }
