@@ -39,19 +39,139 @@ async function main() {
     "Technical Support",
     "Quality Assurance Analyst"
   ];
+  //placeholder values
+  const employees = [
+    {
+      firstName: 'John',
+      middleName: 'Doe',
+      lastName: 'Smith',
+      email: 'johnsmith@example.com',
+      addressLine: '123 Street',
+      city: 'Davao City',
+      province: 'Davao del Sur',
+      country: 'Philippines',
+      roleId: 12,
+      employeeTypeId: 3
+    },
+    {
+      firstName: 'Mike',
+      middleName: '',
+      lastName: 'Tyson',
+      email: 'mkty@example.com',
+      addressLine: '888 Street, Apt 1, 2nd Floor',
+      city: 'Tagum City',
+      province: 'Davao del Norte',
+      country: 'Philippines',
+      roleId: 20,
+      employeeTypeId: 1
+    },
+    {
+      firstName: 'Kim',
+      middleName: null,
+      lastName: 'Chaewon',
+      email: 'kcha@example.com',
+      addressLine: '1992 Street, Apt 1, 6nd Floor',
+      city: 'Digos City',
+      province: 'Davao del Sur',
+      country: 'Philippines',
+      roleId: 16,
+      employeeTypeId: 1
+    },
+    {
+      firstName: 'Muhammad',
+      middleName: null,
+      lastName: 'Ali',
+      email: 'champ@example.com',
+      addressLine: 'B8L1, Rizal St., Poblacion',
+      city: 'Panabo City',
+      province: 'Davao del Norte',
+      country: 'Philippines',
+      roleId: 9,
+      employeeTypeId: 3
+    },
+    {
+      firstName: 'Manny',
+      middleName: null,
+      lastName: 'Pacquiao',
+      email: 'box@example.com',
+      addressLine: 'B9L10, Sherlock Holmes, Poblacion',
+      city: 'Digos City',
+      province: 'Davao del Norte',
+      country: 'Philippines',
+      roleId: 1,
+      employeeTypeId: 1
+    },
+  ];
 
+  const leaves = [
+    {
+      employeeId: 1,
+      leaveTypeId: 1,
+      start_date: new Date('2022-01-01'),
+      end_date: new Date('2022-01-15'),
+      leaveStatusId: 1
+    },
+    {
+      employeeId: 1,
+      leaveTypeId: 2,
+      start_date: new Date('2022-02-01'),
+      end_date: new Date('2022-02-15'),
+      leaveStatusId: 3
+    },
+    {
+      employeeId: 4,
+      leaveTypeId: 1,
+      start_date: new Date('2022-05-01'),
+      end_date: new Date('2022-05-15'),
+      leaveStatusId: 2
+    },
+    {
+      employeeId: 4,
+      leaveTypeId: 2,
+      start_date: new Date('2023-05-01'),
+      end_date: new Date('2023-05-15'),
+      leaveStatusId: 2
+    },
+  ];
+
+  const signatories = [
+    {
+      approverId: 4,
+      leaveId: 1
+    },
+    {
+      approverId: 5,
+      leaveId: 2
+    },
+    {
+      approverId: 5,
+      leaveId: 2
+    },
+    {
+      approverId: 5,
+      leaveId: 3
+    },
+    {
+      approverId: 5,
+      leaveId: 4
+    },
+  ];
+  
   for (const type of employeeTypes) {
     await prisma.employeeType.create({ data: { name: type } });
   }
-
+  
+  // Create LeaveStatus records
   for (const status of leaveStatuses) {
     await prisma.leaveStatus.create({ data: { name: status } });
   }
-
+  
+  // Create LeaveType records
   for (const type of leaveTypes) {
     await prisma.leaveType.create({ data: { name: type } });
   }
-
+  
+  // Create Department records
   for (const department of departments) {
     await prisma.department.create({ data: { name: department } });
   }
@@ -110,6 +230,18 @@ async function main() {
         }
       } 
     }})
+  }
+
+  for (const employee of employees) {
+    await prisma.employee.create({ data: employee });
+  }
+
+  for (const leave of leaves) {
+    await prisma.leave.create({ data: leave });
+  }
+
+  for (const signatory of signatories) {
+    await prisma.signatory.create({ data: signatory });
   }
 
 }

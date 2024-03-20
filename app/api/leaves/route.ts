@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
           EmployeeType: true
         }
       },
+      Signatory: true,
       LeaveStatus: true,
       LeaveType: true
     }
