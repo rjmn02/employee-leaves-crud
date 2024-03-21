@@ -29,6 +29,7 @@ const LeaveList = () => {
             <th style={{ color: 'white' }}>Leave Type</th>
             <th style={{ color: 'white' }}>Status</th>
             <th style={{ color: 'white' }}>Actions</th>
+
           </tr>
         </thead>
         <tbody>
