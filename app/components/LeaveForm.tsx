@@ -1,5 +1,5 @@
 import { LeaveFormProps, Leave, LeaveStatus, LeaveType, Employee } from "@/lib/interfaces";
-import React, { ChangeEvent, use, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 export const LeaveForm: React.FC<LeaveFormProps> = ({
   employeeId,
