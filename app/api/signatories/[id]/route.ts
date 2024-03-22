@@ -7,8 +7,12 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
       id: parseInt(params.id, 10)
     },
     include: {
-      Leave: true,
       Employee: true,
+      Leave: {
+        include: {
+          Employee: true
+        }
+      }
     }
   });
 

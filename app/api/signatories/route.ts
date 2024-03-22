@@ -4,8 +4,12 @@ import prisma from "@/lib/prisma";
 export async function GET(req: NextRequest) {
   const signatories = await prisma.signatory.findMany({
     include: {
-      Leave: true,
       Employee: true,
+      Leave: {
+        include: {
+          Employee: true
+        }
+      }
     }
   });
 

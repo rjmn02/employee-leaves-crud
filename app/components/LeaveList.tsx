@@ -40,7 +40,7 @@ const LeaveList = () => {
             <td>{leave.start_date.toString()}</td> 
             <td>{leave.end_date.toString()}</td> 
             <td>{leave.LeaveType.name}</td>
-            <td>{leave.LeaveStatus.name}</td> 
+            <td>{leave.LeaveStatus.name}</td>
             <td>
               <FaEdit size={20} />
               <br />
