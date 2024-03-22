@@ -1,12 +1,12 @@
 
-import { EmployeeForm } from "./EmployeeForm";
+import { AddEmployee } from "./AddEmployee";
 import EmployeeList from "./EmployeeList";
-import { LeaveForm } from "./LeaveForm";
+import { AddLeave } from "./AddLeave";
 import LeaveList from "./LeaveList";
+import SignatoryList from "./SignatoryList";
 
 export default function Management(){
   return(
-
     <main className= 'max-w-4xl mx-auto mt-4'>
       <div className='text-center my-5 flex flex-col gap-4'>
         <h1 className='text-4xl font-bold padding'>Employee Management System</h1>
@@ -15,21 +15,14 @@ export default function Management(){
       <EmployeeList/>
       <h2 className='text-2xl font-bold padding'>Employee Leave List</h2>
       <LeaveList/>
+      <h2 className='text-2xl font-bold padding'>SIGNATORY List</h2>
+      <SignatoryList/>
       <br />
-      <h2 className='text-2xl font-bold padding'>Leave FORM</h2>
-      <LeaveForm employeeId={0} leaveTypeId={0} start_date={undefined} end_date={undefined} leaveStatusId={0} setEmployeeId={function (value: number): void {
-        throw new Error("Function not implemented.");
-      } } setLeaveTypeId={function (value: number): void {
-        throw new Error("Function not implemented.");
-      } } setStartLeave={function (value: string): void {
-        throw new Error("Function not implemented.");
-      } } setEndLeave={function (value: string): void {
-        throw new Error("Function not implemented.");
-      } } setLeaveStatusId={function (value: number): void {
-        throw new Error("Function not implemented.");
-      } }/>
-
-      <h2 className='text-2xl font-bold padding'>EMPLOYEE FORM</h2>
+      <h2 className='text-2xl font-bold padding'>ADD LEAVE FORM</h2>
+      <AddLeave/>
+      <br />
+      <h2 className='text-2xl font-bold padding'>ADD EMPLOYEE FORM</h2>
+      <AddEmployee/>
 
     </main>
 
