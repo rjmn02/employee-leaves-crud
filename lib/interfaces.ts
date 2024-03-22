@@ -32,8 +32,8 @@ export interface Leave {
   id: number;
   employeeId: number;
   leaveTypeId: number;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   leaveStatusId: number;
   Employee: Employee;
   LeaveStatus: LeaveStatus;
@@ -72,8 +72,8 @@ export interface Signatory {
 export interface LeaveFormProps {
   employeeId: number;
   leaveTypeId: number;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   leaveStatusId: number;
   setEmployeeId: (value: number) => void;
   setLeaveTypeId: (value: number) => void;
@@ -101,8 +101,7 @@ export interface EmployeeFormProps {
   country: string;
   roleId: number;
   employeeTypeId: number;
-  EmployeeType: EmployeeType;
-  Role: Role;
+
   setFirstName: (value: string) => void;
   setMiddleName: (value: string) => void;
   setLastName: (value: string) => void;
@@ -113,5 +112,4 @@ export interface EmployeeFormProps {
   setCountry: (value: string) => void;
   setRoleId: (value: number) => void;
   setEmployeeTypeId: (value: number) => void;
-  setEmploymentDate: (value: string) => void;
 }
