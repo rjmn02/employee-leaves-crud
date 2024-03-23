@@ -9,8 +9,8 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
   leaveStatusId,
   setEmployeeId,
   setLeaveTypeId,
-  setStartLeave,
-  setEndLeave,
+  setStartDate,
+  setEndDate,
   setLeaveStatusId
 }) => {
   const [leaveTypes, setLeaveTypes] = useState([]);
@@ -63,7 +63,7 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
           type="date" 
           className="input input-bordered input-primary w-full p-1.5" 
           value={start_date} 
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setStartLeave(e.target.value)} 
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value)} 
         />
 
         <label className="block mt-2">Leave End Date</label>
@@ -71,7 +71,7 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
           type="date" 
           className="input input-bordered input-primary w-full p-1.5" 
           value={end_date} 
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setEndLeave(e.target.value)} 
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value)} 
         />
         
         <label className="block mb-2"></label>

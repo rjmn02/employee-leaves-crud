@@ -77,8 +77,8 @@ export interface LeaveFormProps {
   leaveStatusId: number;
   setEmployeeId: (value: number) => void;
   setLeaveTypeId: (value: number) => void;
-  setStartLeave: (value: string) => void;
-  setEndLeave: (value: string) => void;
+  setStartDate: (value: string) => void;
+  setEndDate: (value: string) => void;
   setLeaveStatusId: (value: number) => void;
 }
 
@@ -114,4 +114,14 @@ export interface EmployeeFormProps {
   setRoleId: (value: number) => void;
   setEmployeeTypeId: (value: number) => void;
   setEmploymentDate: (value: string) => void;
+}
+
+export interface ErrorModalProps {
+  show: boolean;
+  message: string; 
+}
+
+export interface SuccessModalProps {
+  show: boolean;
+  message: string; 
 }

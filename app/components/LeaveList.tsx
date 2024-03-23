@@ -1,11 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Leave } from '@/lib/interfaces';
+import { EditLeave } from './EditLeave';
+import { deleteLeave } from './DeleteLeave';
 
 const LeaveList = () => {
   const [leaves, setLeaves] = useState([]);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   useEffect(() => {
     const fetchLeaves = async () => {
@@ -16,6 +18,15 @@ const LeaveList = () => {
 
     fetchLeaves();
   }, []);
+
+  function handleEditClick(id: number): void {
+    setIsEditOpen(true); // Open the edit dialog
+    onLeaveUpdated();
+  }
+
+  function handleDelete(leave: Leave): void {
+    // Implement delete functionality here
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -29,7 +40,6 @@ const LeaveList = () => {
             <th style={{ color: 'white' }}>Leave Type</th>
             <th style={{ color: 'white' }}>Status</th>
             <th style={{ color: 'white' }}>Actions</th>
-
           </tr>
         </thead>
         <tbody>
@@ -41,17 +51,16 @@ const LeaveList = () => {
             <td>{leave.end_date.toString()}</td> 
             <td>{leave.LeaveType.name}</td>
             <td>{leave.LeaveStatus.name}</td> 
-            <td>
-              <FaEdit size={20} />
-              <br />
-              <MdDelete size={20} />
+            <td className='flex gap-4 '>
+              <FaEdit cursor='pointer' className='text-info' size={21} onClick={() => handleEditClick(leave.id)} />
+              <MdDelete cursor='pointer' className='text-error' size={21} onClick={() => handleDelete(leave)} />
             </td>
           </tr>
         ))}
         </tbody>
-        </table>
-        </div>
-        );
+      </table>
+    </div>
+  );
 };
 
 export default LeaveList;
