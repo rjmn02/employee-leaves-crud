@@ -2,19 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Employee } from '@/lib/interfaces';
+import { EmployeeForm } from './EmployeeForm';
+import { EditEmployee } from './EditEmployee';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      const response = await fetch('/api/employees');
-      const data = await response.json();
-      setEmployees(data);
-    };
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
+  
+  const fetchEmployees = async () => {
+    const response = await fetch('/api/employees');
+    const data = await response.json();
+    setEmployees(data);
+  };
 
+  useEffect(() => {
     fetchEmployees();
   }, []);
 
+  const handleEditClick = (employee: Employee) => {
+    setCurrentEmployee(employee);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleDeleteClick = async (signatoryId: number, ) => {
+    try {
+      const response = await fetch(`/api/employees/${signatoryId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete employee');
+      }
+
+      fetchEmployees();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmployeeUpdated = () => {
+    fetchEmployees();
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -43,16 +72,22 @@ const EmployeeList = () => {
               <span className="badge badge-ghost  badge-sm min-w-[ch20]">{employee.Role.Department.name}</span>  
             </td>
             <td>{employee.EmployeeType.name}</td>
-            <td>
-              <FaEdit size={20} />
-              <br />
-              <MdDelete size={20} />
-              <br />
+            <td className='flex gap-4 '>              
+              <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(employee)} />
+              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(employee.id)} />
             </td>
           </tr>
         ))}
         </tbody>
         </table>
+        {currentEmployee && (
+        <EditEmployee
+          employee={currentEmployee}
+          onEmployeeUpdated={handleEmployeeUpdated}
+          isDialogOpen={isEditDialogOpen}
+          setIsDialogOpen={setIsEditDialogOpen}
+        />
+      )}
         </div>
         );
 }

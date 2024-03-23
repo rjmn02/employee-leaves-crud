@@ -1,4 +1,3 @@
-import { LeaveFormProps, Leave, LeaveStatus, LeaveType, Employee } from "@/lib/interfaces";
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { LeaveForm } from "./LeaveForm";
 
@@ -12,30 +11,34 @@ export const AddLeave = () => {
   const [leaveTypes, setLeaveTypes] = useState([]);
   const [leaveStatus, setLeaveStatus] = useState([]);
   const [employees, setEmployees] = useState([]);
+
+  const fetchLeaveTypes = async () => {
+    const response = await fetch('/api/leavetypes');
+    const data = await response.json();
+    setLeaveTypes(data);
+  };
+
+  const fetchLeaveStatus = async () => {
+    const response = await fetch('/api/leavestatuses');
+    const data = await response.json();
+    setLeaveStatus(data);
+  };
+
+  const fetchEmployees = async () => {
+    const response = await fetch('/api/employees');
+    const data = await response.json();
+    setEmployees(data);
+  }
+  
   useEffect(() => {
-    const fetchLeaveTypes = async () => {
-      const response = await fetch('/api/leavetypes');
-      const data = await response.json();
-      setLeaveTypes(data);
-    }
     fetchLeaveTypes();
   }, []);
 
   useEffect(() => {
-    const fetchLeaveStatus = async () => {
-      const response = await fetch('/api/leavestatuses');
-      const data = await response.json();
-      setLeaveStatus(data);
-    }
     fetchLeaveStatus();
   }, []);
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      const response = await fetch('/api/employees');
-      const data = await response.json();
-      setEmployees(data);
-    }
     fetchEmployees();
   }, []);
 
