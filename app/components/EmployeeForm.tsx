@@ -1,3 +1,4 @@
+import { useFetch } from "@/lib/fetchHandler";
 import { EmployeeFormProps, EmployeeType, Role } from "@/lib/interfaces";
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
@@ -24,24 +25,11 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
   setRoleId,
   setEmployeeTypeId
 }) => {
-  const [roles, setRoles] = useState([]);
-  const [employeeTypes, setEmployeeTypes] = useState([]);
+  const {data: roles, fetchData: fetchRoles} = useFetch('/api/roles');
+  const {data: employeeTypes, fetchData: fetchEmployeeTypes} = useFetch('/api/employeetypes');
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      const response = await fetch('/api/roles');
-      const data = await response.json();
-      setRoles(data);
-    };
     fetchRoles();
-  }, []);
-
-  useEffect(() => {
-    const fetchEmployeeTypes = async () => {
-      const response = await fetch('/api/employeetypes');
-      const data = await response.json();
-      setEmployeeTypes(data);
-    }
     fetchEmployeeTypes();
   }, []);
 

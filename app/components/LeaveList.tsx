@@ -1,21 +1,36 @@
-
 import React, { useState, useEffect } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Leave } from '@/lib/interfaces';
+import { EditLeave } from './EditLeave';
+import { useFetch } from '@/lib/fetchHandler';
+import { deleteLeave } from '@/lib/deletionHandlers';
 
 const LeaveList = () => {
-  const [leaves, setLeaves] = useState([]);
+  const { data: leaves, fetchData: fetchLeaves }  = useFetch('/api/leaves');
+
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentLeave, setCurrentLeave] = useState<Leave | null>(null);
 
   useEffect(() => {
-    const fetchLeaves = async () => {
-      const response = await fetch('/api/leaves'); 
-      const data = await response.json();
-      setLeaves(data);
-    };
-
     fetchLeaves();
   }, []);
+
+  const handleEditClick = (leave: Leave) => {
+    setCurrentLeave(leave);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleDeleteClick = async (leave: Leave) => {
+    await deleteLeave(leave);
+    setTimeout(async () => {
+      await fetchLeaves();
+    }, 500)
+  };
+
+  const handleLeaveUpdated = () => {
+    fetchLeaves();
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -29,7 +44,6 @@ const LeaveList = () => {
             <th style={{ color: 'white' }}>Leave Type</th>
             <th style={{ color: 'white' }}>Status</th>
             <th style={{ color: 'white' }}>Actions</th>
-
           </tr>
         </thead>
         <tbody>
@@ -41,17 +55,24 @@ const LeaveList = () => {
             <td>{leave.end_date.toString()}</td> 
             <td>{leave.LeaveType.name}</td>
             <td>{leave.LeaveStatus.name}</td>
-            <td>
-              <FaEdit size={20} />
-              <br />
-              <MdDelete size={20} />
+            <td className='flex gap-4 '>              
+              <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(leave)} />
+              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(leave)} />
             </td>
           </tr>
         ))}
         </tbody>
-        </table>
-        </div>
-        );
+      </table>
+      {currentLeave && (
+        <EditLeave
+          leave={currentLeave}
+          onLeaveUpdated={handleLeaveUpdated}
+          isDialogOpen={isEditDialogOpen}
+          setIsDialogOpen={setIsEditDialogOpen}
+        />
+      )}
+    </div>
+  );
 };
 
 export default LeaveList;

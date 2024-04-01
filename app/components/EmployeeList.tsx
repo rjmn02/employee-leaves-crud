@@ -2,19 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Employee } from '@/lib/interfaces';
+import { EditEmployee } from './EditEmployee';
+import { deleteEmployee } from '@/lib/deletionHandlers';
+import { useFetch } from '@/lib/fetchHandler';
+
 
 const EmployeeList = () => {
-  const [employees, setEmployees] = useState([]);
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      const response = await fetch('/api/employees');
-      const data = await response.json();
-      setEmployees(data);
-    };
+  const { data :employees, fetchData: fetchEmployees } = useFetch('/api/employees');
+  
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
 
+  useEffect(() => {
     fetchEmployees();
   }, []);
 
+  const handleEditClick = (employee: Employee) => {
+    setCurrentEmployee(employee);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleDeleteClick = async (employee: Employee) => {
+    await deleteEmployee(employee);
+    setTimeout(async () => {
+      await fetchEmployees();
+    }, 500)
+  };
+
+  const handleEmployeeUpdated = () => {
+    fetchEmployees();
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -43,16 +60,22 @@ const EmployeeList = () => {
               <span className="badge badge-ghost  badge-sm min-w-[ch20]">{employee.Role.Department.name}</span>  
             </td>
             <td>{employee.EmployeeType.name}</td>
-            <td>
-              <FaEdit size={20} />
-              <br />
-              <MdDelete size={20} />
-              <br />
+            <td className='flex gap-4 '>              
+              <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(employee)} />
+              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(employee)} />
             </td>
           </tr>
         ))}
         </tbody>
         </table>
+        {currentEmployee && (
+        <EditEmployee
+          employee={currentEmployee}
+          onEmployeeUpdated={handleEmployeeUpdated}
+          isDialogOpen={isEditDialogOpen}
+          setIsDialogOpen={setIsEditDialogOpen}
+        />
+      )}
         </div>
         );
 }

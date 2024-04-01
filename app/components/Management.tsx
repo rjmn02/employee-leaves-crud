@@ -4,6 +4,7 @@ import EmployeeList from "./EmployeeList";
 import { AddLeave } from "./AddLeave";
 import LeaveList from "./LeaveList";
 import SignatoryList from "./SignatoryList";
+import { AddSignatory } from "./AddSignatory";
 
 export default function Management(){
   return(
@@ -20,10 +21,10 @@ export default function Management(){
       <br />
       <h2 className='text-2xl font-bold padding'>ADD LEAVE FORM</h2>
       <AddLeave/>
-      <br />
       <h2 className='text-2xl font-bold padding'>ADD EMPLOYEE FORM</h2>
       <AddEmployee/>
-
+      <h2 className='text-2xl font-bold padding'>ADD SIGNATORY FORM</h2>
+      <AddSignatory/>
     </main>
 
   );

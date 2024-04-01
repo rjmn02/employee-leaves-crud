@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
   return NextResponse.json(updatedDepartment);
 }
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
-  const deletedDepartment = await prisma.department.delete({
+  const deleteDepartment = await prisma.department.delete({
     where: {
       id: parseInt(params.id, 10)
     }
