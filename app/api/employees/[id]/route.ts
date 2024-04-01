@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
   const employeeId = parseInt(params.id, 10);
+
   const employee = await prisma.employee.findUnique({
     where: {
       id: employeeId
@@ -21,6 +22,7 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
 
 export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
   const employeeId = parseInt(params.id, 10);
+  
   const data = await req.json();
   const updatedEmployee = await prisma.employee.update({
     where: {
@@ -31,13 +33,39 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
   
   return NextResponse.json(updatedEmployee);
 }
+
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
   const employeeId = parseInt(params.id, 10);
-  const deletedEmployee = await prisma.employee.delete({
+
+  const deleteEmployee = prisma.employee.delete({
     where: {
       id: employeeId
     }
   });
+
+  const deleteApprovedSignatory = prisma.signatory.deleteMany({
+    where: {
+      approverId: employeeId
+    },
+  });
+
+  const deleteEmployeeLeaveSignatory = prisma.signatory.deleteMany({
+    where: {
+      Leave: {
+        employeeId: employeeId
+      }
+    },
+  });
+
+ 
+  const deleteLeave = prisma.leave.deleteMany({
+    where: {
+      employeeId: employeeId
+    }
+  });
+
+  await deleteEmployeeLeaveSignatory
+  await prisma.$transaction([deleteApprovedSignatory, deleteLeave, deleteEmployee])
 
   return NextResponse.json({status: 200});
 }

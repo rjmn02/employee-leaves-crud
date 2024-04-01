@@ -27,7 +27,7 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
 }
 
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
-  const deletedRole = await prisma.role.delete({
+  const deleteRole = await prisma.role.delete({
     where: {
       id: parseInt(params.id, 10)
     }

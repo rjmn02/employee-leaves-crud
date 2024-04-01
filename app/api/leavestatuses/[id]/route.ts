@@ -28,7 +28,7 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
 }
 
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
-  const deletedStatus = await prisma.leaveStatus.delete({
+  const deleteStatus = await prisma.leaveStatus.delete({
     where: {
       id: parseInt(params.id, 10)
     }

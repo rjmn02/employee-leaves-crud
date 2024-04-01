@@ -1,17 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { LeaveForm } from "./LeaveForm";
 import { SignatoryForm } from './SignatoryForm';
+import { useFetch } from '@/lib/fetchHandler';
 
 export const AddSignatory = () => {
   const [approverId, setApproverId] = useState(0);
   const [leaveId, setLeaveId] = useState(0);
-  const [employees, setEmployees] = useState([]);
-
-  const fetchEmployees = async () => {
-    const response = await fetch('/api/employees');
-    const data = await response.json();
-    setEmployees(data);
-  }
+  const {data: employees, fetchData: fetchEmployees} = useFetch('/api/employees');
 
   useEffect(() => {
     fetchEmployees();

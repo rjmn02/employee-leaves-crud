@@ -2,19 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Employee } from '@/lib/interfaces';
-import { EmployeeForm } from './EmployeeForm';
 import { EditEmployee } from './EditEmployee';
+import { deleteEmployee } from '@/lib/deletionHandlers';
+import { useFetch } from '@/lib/fetchHandler';
+
 
 const EmployeeList = () => {
-  const [employees, setEmployees] = useState([]);
+  const { data :employees, fetchData: fetchEmployees } = useFetch('/api/employees');
+  
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
-  
-  const fetchEmployees = async () => {
-    const response = await fetch('/api/employees');
-    const data = await response.json();
-    setEmployees(data);
-  };
 
   useEffect(() => {
     fetchEmployees();
@@ -25,20 +22,11 @@ const EmployeeList = () => {
     setIsEditDialogOpen(true);
   };
 
-  const handleDeleteClick = async (signatoryId: number, ) => {
-    try {
-      const response = await fetch(`/api/employees/${signatoryId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete employee');
-      }
-
-      fetchEmployees();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDeleteClick = async (employee: Employee) => {
+    await deleteEmployee(employee);
+    setTimeout(async () => {
+      await fetchEmployees();
+    }, 500)
   };
 
   const handleEmployeeUpdated = () => {
@@ -74,7 +62,7 @@ const EmployeeList = () => {
             <td>{employee.EmployeeType.name}</td>
             <td className='flex gap-4 '>              
               <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(employee)} />
-              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(employee.id)} />
+              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(employee)} />
             </td>
           </tr>
         ))}

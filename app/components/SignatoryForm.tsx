@@ -1,3 +1,4 @@
+import { useFetch } from '@/lib/fetchHandler';
 import { SignatoryFormProps, Employee, Leave } from '@/lib/interfaces';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
@@ -7,25 +8,13 @@ export const SignatoryForm: React.FC<SignatoryFormProps> = ({
   setApproverId,
   setLeaveId,
 }) => {
-  const [leaves, setLeaves] = useState([]);
-  const [employees, setEmployees] = useState([]);
+  
+  const {data: leaves, fetchData: fetctLeaves} = useFetch('/api/leaves');
+  const {data: employees, fetchData: fetchEmployees} = useFetch('/api/employees');
 
   useEffect(() => {
-    const fetchLeaves = async () => {
-      const response = await fetch('/api/leaves');
-      const data = await response.json();
-      setLeaves(data);
-    }
-    fetchLeaves();
-  }, []);
-
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      const response = await fetch('/api/employees');
-      const data = await response.json();
-      setEmployees(data);
-    }
     fetchEmployees();
+    fetctLeaves();
   }, []);
 
   return(
@@ -39,7 +28,7 @@ export const SignatoryForm: React.FC<SignatoryFormProps> = ({
         >
           <option value="">Select Approver</option>
           {employees.filter((employee: Employee) => [1, 6, 9, 13, 17].includes(employee.roleId)).map((employee: Employee) => (
-            <option key={employee.id} value={employee.id}>{employee.firstName} {employee?.middleName} {employee.lastName}</option>
+            <option key={employee.id} value={employee.id}>{employee.firstName} {employee?.middleName} {employee.lastName} | {employee.Role.title}</option>
           ))}
         </select>
 

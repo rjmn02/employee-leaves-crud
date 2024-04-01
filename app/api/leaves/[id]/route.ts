@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
+  const leaveId = parseInt(params.id, 10);
+  
   const leaves = await prisma.leave.findUnique({
     where: {
-      id: parseInt(params.id, 10)
+      id: leaveId
     },
     include: {
       Employee: {
@@ -27,10 +29,12 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
 }
 
 export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
+  const leaveId = parseInt(params.id, 10);
   const data = await req.json();
+  
   const updatedLeave = await prisma.leave.update({
     where: {
-      id: parseInt(params.id, 10)
+      id: leaveId
     },
     data: data
   });
@@ -39,11 +43,21 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
 }
 
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
-  const deletedLeave = await prisma.leave.delete({
+  const leaveId = parseInt(params.id, 10);
+  
+  const deletedLeaveSignatory = prisma.signatory.deleteMany({
     where: {
-      id: parseInt(params.id, 10)
+      leaveId: leaveId
     }
   });
+
+  const deletedLeave = prisma.leave.delete({
+    where: {
+      id: leaveId
+    }
+  });
+
+  await prisma.$transaction([deletedLeaveSignatory, deletedLeave]);
 
   return NextResponse.json({status: 200});
 }

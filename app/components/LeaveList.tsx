@@ -3,17 +3,14 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Leave } from '@/lib/interfaces';
 import { EditLeave } from './EditLeave';
+import { useFetch } from '@/lib/fetchHandler';
+import { deleteLeave } from '@/lib/deletionHandlers';
 
 const LeaveList = () => {
-  const [leaves, setLeaves] = useState([]);
+  const { data: leaves, fetchData: fetchLeaves }  = useFetch('/api/leaves');
+
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [currentLeave, setCurrentLeave] = useState<Leave | null>(null);
-
-  const fetchLeaves = async () => {
-    const response = await fetch('/api/leaves'); 
-    const data = await response.json();
-    setLeaves(data);
-  };
 
   useEffect(() => {
     fetchLeaves();
@@ -24,20 +21,11 @@ const LeaveList = () => {
     setIsEditDialogOpen(true);
   };
 
-  const handleDeleteClick = async (leaveId: number) => {
-    try {
-      const response = await fetch(`/api/leaves/${leaveId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete leave');
-      }
-
-      fetchLeaves();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDeleteClick = async (leave: Leave) => {
+    await deleteLeave(leave);
+    setTimeout(async () => {
+      await fetchLeaves();
+    }, 500)
   };
 
   const handleLeaveUpdated = () => {
@@ -69,7 +57,7 @@ const LeaveList = () => {
             <td>{leave.LeaveStatus.name}</td>
             <td className='flex gap-4 '>              
               <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(leave)} />
-              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(leave.id)} />
+              <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(leave)} />
             </td>
           </tr>
         ))}

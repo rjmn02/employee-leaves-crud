@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
   return NextResponse.json(updatedType);
 }
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
-  const deletedType = await prisma.leaveType.delete({
+  const deleteType = await prisma.leaveType.delete({
     where: {
       id: parseInt(params.id, 10)
     }

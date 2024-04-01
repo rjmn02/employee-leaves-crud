@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { LeaveForm } from "./LeaveForm";
+import { useFetch } from '@/lib/fetchHandler';
 
 export const AddLeave = () => {
   const [employeeId, setEmployeeId] = useState(0);
@@ -8,39 +9,16 @@ export const AddLeave = () => {
   const [end_date, setEndLeave] = useState('');
   const [leaveStatusId, setLeaveStatusId] = useState(0);
 
-  const [leaveTypes, setLeaveTypes] = useState([]);
-  const [leaveStatus, setLeaveStatus] = useState([]);
-  const [employees, setEmployees] = useState([]);
+  const {data: leaveTypes, fetchData: fetchLeaveTypes} = useFetch('/api/leavetypes');
+  const {data: leaveStatus, fetchData: fetchLeaveStatus} = useFetch('/api/leavestatuses');
+  const {data: employees, fetchData: fetchEmployees} = useFetch('/api/employees');
 
-  const fetchLeaveTypes = async () => {
-    const response = await fetch('/api/leavetypes');
-    const data = await response.json();
-    setLeaveTypes(data);
-  };
-
-  const fetchLeaveStatus = async () => {
-    const response = await fetch('/api/leavestatuses');
-    const data = await response.json();
-    setLeaveStatus(data);
-  };
-
-  const fetchEmployees = async () => {
-    const response = await fetch('/api/employees');
-    const data = await response.json();
-    setEmployees(data);
-  }
-  
   useEffect(() => {
     fetchLeaveTypes();
-  }, []);
-
-  useEffect(() => {
     fetchLeaveStatus();
-  }, []);
-
-  useEffect(() => {
     fetchEmployees();
   }, []);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       
