@@ -14,25 +14,25 @@ model Department {
 }
 
 model Employee {
-  id                Int                 @id @default(autoincrement())
-  firstName         String              @db.VarChar(255)
-  middleName        String?             @db.VarChar(255)
-  lastName          String              @db.VarChar(255)
-  email             String              @db.VarChar(255)
-  addressLine       String              @db.VarChar(255)
-  city              String              @db.VarChar(255)
-  province          String              @db.VarChar(255)
-  country           String              @db.VarChar(255)
-  roleId            Int
-  employeeTypeId    Int
-  basePay           Float
-  Bonus             Bonus[]
-  EmployeeType      EmployeeType        @relation(fields: [employeeTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Role              Role                @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  EmployeeDeduction EmployeeDeduction[]
-  Leave             Leave[]
-  Payroll           Payroll[]
-  Signatory         Signatory[]
+  id                     Int                      @id @default(autoincrement())
+  firstName              String                   @db.VarChar(255)
+  middleName             String?                  @db.VarChar(255)
+  lastName               String                   @db.VarChar(255)
+  email                  String                   @db.VarChar(255)
+  addressLine            String                   @db.VarChar(255)
+  city                   String                   @db.VarChar(255)
+  province               String                   @db.VarChar(255)
+  country                String                   @db.VarChar(255)
+  roleId                 Int
+  employeeTypeId         Int
+  basePay                Float
+  EmployeeType           EmployeeType             @relation(fields: [employeeTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Role                   Role                     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  GovernmentContribution GovernmentContribution[]
+  Leave                  Leave[]
+  Payhead                Payhead[]
+  Payroll                Payroll[]
+  Signatory              Signatory[]
 }
 
 model EmployeeType {
@@ -82,57 +82,56 @@ model Signatory {
   Leave      Leave    @relation(fields: [leaveId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model Bonus {
-  id            Int      @id @default(autoincrement())
-  employeeId    Int
-  description   String   @db.VarChar(255)
-  amount        Float
-  effectiveDate DateTime @db.Date
-  Employee      Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model Deduction {
-  id                Int                 @id @default(autoincrement())
-  name              String              @db.VarChar(255)
-  amount            Float
-  EmployeeDeduction EmployeeDeduction[]
-}
-
-model EmployeeDeduction {
-  id                       Int                    @id @default(autoincrement())
-  governmentContributionId Int
-  employeeId               Int
-  deductionId              Int
-  effectiveDate            DateTime               @db.Date
-  Deduction                Deduction              @relation(fields: [deductionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Employee                 Employee               @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  GovernmentContribution   GovernmentContribution @relation(fields: [governmentContributionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model GovernmentContribution {
-  id                Int                 @id @default(autoincrement())
-  payrollId         Int
-  sss               Float?
-  philHealth        Float?
-  pagIbig           Float?
-  withholdingTax    Float?
-  EmployeeDeduction EmployeeDeduction[]
+  id          Int      @id @default(autoincrement())
+  sss         Float?
+  philHealth  Float?
+  pagIbig     Float?
+  employeeId  Int
+  totalAmount Float?
+  Employee    Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Payroll {
   id              Int         @id @default(autoincrement())
-  employeeeId     Int
   payrollTypeId   Int
   cutoffStartDate DateTime    @db.Date
   cutoffEndDate   DateTime    @db.Date
   dateCreated     DateTime    @db.Date
-  netPay          Float
+  employeeeId     Int
   Employee        Employee    @relation(fields: [employeeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   PayrollType     PayrollType @relation(fields: [payrollTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Payslip         Payslip[]
 }
 
 model PayrollType {
   id      Int       @id @default(autoincrement())
   name    String    @db.VarChar(255)
   Payroll Payroll[]
+}
+
+model Payhead {
+  id            Int         @id @default(autoincrement())
+  payheadTypeId Int
+  employeeId    Int
+  description   String      @db.VarChar(255)
+  amount        Float
+  effectiveDate DateTime    @db.Date
+  Employee      Employee    @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  PayheadType   PayheadType @relation(fields: [payheadTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model PayheadType {
+  id      Int       @id(map: "Deduction_pkey") @default(autoincrement())
+  name    String    @db.VarChar(255)
+  Payhead Payhead[]
+}
+
+model Payslip {
+  id             Int     @id @default(autoincrement())
+  payrollId      Int
+  totalDeduction Float?
+  totalEarning   Float?
+  netPay         Float?
+  Payroll        Payroll @relation(fields: [payrollId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
