@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
 }
 
 export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
-
+  //complete
 }
 
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {

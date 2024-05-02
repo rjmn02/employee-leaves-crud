@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const basePay = data.payroll.basePay;
-  const payrollPeriod = data.payroll.payrollTypeId;
+  const payrollPeriod = data.payroll.payrollTypeId; 
   const newGovernmentContribution = await prisma.governmentContribution.create({
     data: {
       payrollId: data.payrollId,

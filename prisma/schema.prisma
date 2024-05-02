@@ -25,6 +25,7 @@ model Employee {
   country           String              @db.VarChar(255)
   roleId            Int
   employeeTypeId    Int
+  basePay           Float
   Bonus             Bonus[]
   EmployeeType      EmployeeType        @relation(fields: [employeeTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Role              Role                @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -98,36 +99,36 @@ model Deduction {
 }
 
 model EmployeeDeduction {
-  id            Int       @id @default(autoincrement())
-  employeeId    Int
-  deductionId   Int
-  effectiveDate DateTime  @db.Date
-  Deduction     Deduction @relation(fields: [deductionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Employee      Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                       Int                    @id @default(autoincrement())
+  governmentContributionId Int
+  employeeId               Int
+  deductionId              Int
+  effectiveDate            DateTime               @db.Date
+  Deduction                Deduction              @relation(fields: [deductionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Employee                 Employee               @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  GovernmentContribution   GovernmentContribution @relation(fields: [governmentContributionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model GovernmentContribution {
-  id             Int     @id @default(autoincrement())
-  payrollId      Int
-  sss            Float?
-  philHealth     Float?
-  pagIbig        Float?
-  withholdingTax Float?
-  Payroll        Payroll @relation(fields: [payrollId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                Int                 @id @default(autoincrement())
+  payrollId         Int
+  sss               Float?
+  philHealth        Float?
+  pagIbig           Float?
+  withholdingTax    Float?
+  EmployeeDeduction EmployeeDeduction[]
 }
 
 model Payroll {
-  id                     Int                      @id @default(autoincrement())
-  employeeeId            Int
-  payrollTypeId          Int
-  basePay                Float
-  cutoffStartDate        DateTime                 @db.Date
-  cutoffEndDate          DateTime                 @db.Date
-  dateCreated            DateTime                 @db.Date
-  netPay                 Float
-  GovernmentContribution GovernmentContribution[]
-  Employee               Employee                 @relation(fields: [employeeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  PayrollType            PayrollType              @relation(fields: [payrollTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id              Int         @id @default(autoincrement())
+  employeeeId     Int
+  payrollTypeId   Int
+  cutoffStartDate DateTime    @db.Date
+  cutoffEndDate   DateTime    @db.Date
+  dateCreated     DateTime    @db.Date
+  netPay          Float
+  Employee        Employee    @relation(fields: [employeeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  PayrollType     PayrollType @relation(fields: [payrollTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model PayrollType {
