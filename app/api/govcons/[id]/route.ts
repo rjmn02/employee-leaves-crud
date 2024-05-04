@@ -20,13 +20,7 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
     where: {
       id: govConId
     },
-    data: {
-      employeeId: data.employeeId,
-      sss: computeSSS(data.employee.basePay),
-      pagIbig: computePagIbig(data.employee.basePay),
-      philHealth: computePhilHealth(data.employee.basePay),
-      totalAmount: computeSSS(data.employee.basePay) + computePagIbig(data.employee.basePay) + computePhilHealth(data.employee.basePay)
-    }
+    data: data
   });
   
   return NextResponse.json(updatedGovCon);

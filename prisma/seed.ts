@@ -51,7 +51,8 @@ async function main() {
       province: 'Davao del Sur',
       country: 'Philippines',
       roleId: 12,
-      employeeTypeId: 3
+      employeeTypeId: 3,
+      basePay: 50000
     },
     {
       firstName: 'Mike',
@@ -63,7 +64,8 @@ async function main() {
       province: 'Davao del Norte',
       country: 'Philippines',
       roleId: 20,
-      employeeTypeId: 1
+      employeeTypeId: 1,
+      basePay: 42000
     },
     {
       firstName: 'Kim',
@@ -75,7 +77,8 @@ async function main() {
       province: 'Davao del Sur',
       country: 'Philippines',
       roleId: 16,
-      employeeTypeId: 1
+      employeeTypeId: 1,
+      basePay: 40000
     },
     {
       firstName: 'Muhammad',
@@ -87,7 +90,8 @@ async function main() {
       province: 'Davao del Norte',
       country: 'Philippines',
       roleId: 9,
-      employeeTypeId: 3
+      employeeTypeId: 3,
+      basePay: 26890
     },
     {
       firstName: 'Manny',
@@ -99,7 +103,45 @@ async function main() {
       province: 'Davao del Norte',
       country: 'Philippines',
       roleId: 1,
-      employeeTypeId: 1
+      employeeTypeId: 1,
+      basePay: 18900
+    },
+  ];
+
+  const govCons = [
+    {
+      employeeId: 1,
+      sss: 0,
+      pagIbig: 0,
+      philHealth: 0,
+      totalAmount: 0
+    },
+    {
+      employeeId: 2,
+      sss: 0,
+      pagIbig: 0,
+      philHealth: 0,
+      totalAmount: 0
+    },
+    {
+      employeeId: 3,
+      sss: 0,
+      pagIbig: 0,
+      philHealth: 0,
+      totalAmount: 0
+    },
+    {
+      employeeId: 4,
+      sss: 0,
+      pagIbig: 0,
+      philHealth: 0,
+      totalAmount: 0
+    },
+    {
+      employeeId: 5,
+      sss: 0,
+      pagIbig: 0,
+      philHealth: 0,
     },
   ];
 

@@ -64,8 +64,14 @@ export async function DELETE(req: NextRequest, {params}: {params: {id: string}})
     }
   });
 
+  const deleteGovContribution = prisma.governmentContribution.deleteMany({
+    where: {
+      employeeId: employeeId
+    }
+  });
+
   await deleteEmployeeLeaveSignatory
-  await prisma.$transaction([deleteApprovedSignatory, deleteLeave, deleteEmployee])
+  await prisma.$transaction([deleteGovContribution, deleteApprovedSignatory, deleteLeave, deleteEmployee])
 
   return NextResponse.json({status: 200});
 }

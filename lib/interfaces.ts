@@ -16,6 +16,7 @@ export interface Employee {
   country: string;
   roleId: number;
   employeeTypeId: number;
+  basePay: number;
   EmployeeType: EmployeeType;
   Role: Role;
   Leave: Leave[];
@@ -69,6 +70,16 @@ export interface Signatory {
   Leave: Leave;
 }
 
+export interface GovermentContribution {
+  id: number;
+  employeeId: number;
+  sss: number;
+  pagIbig: number;
+  philHealth: number;
+  totalAmount: number;
+  Employee: Employee;
+}
+
 export interface LeaveFormProps {
   employeeId: number;
   leaveTypeId: number;
@@ -101,6 +112,7 @@ export interface EmployeeFormProps {
   country: string;
   roleId: number;
   employeeTypeId: number;
+  basePay: number;
 
   setFirstName: (value: string) => void;
   setMiddleName: (value: string) => void;
@@ -112,4 +124,5 @@ export interface EmployeeFormProps {
   setCountry: (value: string) => void;
   setRoleId: (value: number) => void;
   setEmployeeTypeId: (value: number) => void;
+  setBasePay: (value: number) => void;
 }

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EmployeeForm } from './EmployeeForm';
+import { computePagIbig, computePhilHealth, computeSSS } from '@/lib/calculators';
 
 export const AddEmployee = () => {
   const router = useRouter();
@@ -14,10 +15,11 @@ export const AddEmployee = () => {
   const [country, setCountry] = useState('');
   const [roleId, setRoleId] = useState(0);
   const [employeeTypeId, setEmployeeTypeId] = useState(0);
+  const [basePay, setBasePay] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !addressLine || !city || !province || !country || !roleId || !employeeTypeId) {
+    if (!firstName || !lastName || !email || !addressLine || !city || !province || !country || !roleId || !employeeTypeId || !basePay) {
       alert('Please fill out all fields');
       return;
     }
@@ -38,12 +40,31 @@ export const AddEmployee = () => {
           province,
           country,
           roleId,
-          employeeTypeId
+          employeeTypeId,
+          basePay
         })
       });
 
+
       if (res.ok) {
-        alert('Employee added successfully');
+        const employee = await res.json();
+        const govRes = await fetch('/api/govcons', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            employeeId: employee.id,
+            sss: computeSSS(basePay),
+            pagIbig: computePagIbig(basePay),
+            philHealth: computePhilHealth(basePay),
+            totalAmount: computeSSS(basePay) + computePagIbig(basePay) + computePhilHealth(basePay)
+          })
+        });
+        
+        if (govRes.ok) {
+          alert('Employee added successfully');
+        }
       }
     } catch (error) {
       console.log(error);
@@ -63,6 +84,7 @@ export const AddEmployee = () => {
         country={country}
         roleId={roleId}
         employeeTypeId={employeeTypeId}
+        basePay={basePay}
 
         setFirstName={setFirstName}
         setMiddleName={setMiddleName}
@@ -74,6 +96,7 @@ export const AddEmployee = () => {
         setCountry={setCountry}
         setRoleId={setRoleId}
         setEmployeeTypeId={setEmployeeTypeId}
+        setBasePay={setBasePay}
       />
       <button type="submit" className="btn btn-primary mt-4">
         Submit  

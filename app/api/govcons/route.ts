@@ -12,13 +12,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const newGovCon = await prisma.governmentContribution.create({
-    data: {
-      employeeId: data.employeeId,
-      sss: computeSSS(data.employee.basePay),
-      pagIbig: computePagIbig(data.employee.basePay),
-      philHealth: computePhilHealth(data.employee.basePay),
-      totalAmount: computeSSS(data.employee.basePay) + computePagIbig(data.employee.basePay) + computePhilHealth(data.employee.basePay)
-    }
+    data: data
   })
 
   return NextResponse.json(newGovCon);

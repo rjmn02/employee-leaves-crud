@@ -14,6 +14,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
   country,
   roleId,
   employeeTypeId,
+  basePay,
   setFirstName,
   setMiddleName,
   setLastName,
@@ -23,7 +24,8 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
   setProvince,
   setCountry,
   setRoleId,
-  setEmployeeTypeId
+  setEmployeeTypeId,
+  setBasePay
 }) => {
   const {data: roles, fetchData: fetchRoles} = useFetch('/api/roles');
   const {data: employeeTypes, fetchData: fetchEmployeeTypes} = useFetch('/api/employeetypes');
@@ -124,6 +126,20 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
           <option key={employeeType.id} value={employeeType.id}>{employeeType.name}</option>
         ))}
       </select>
+
+      <label className="block mb-2"></label>
+      <input
+        type="text"
+        placeholder='Base Pay (PHP)'
+        className="input input-bordered input-primary w-full p-1.5"
+        value={basePay}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const value = Number(e.target.value);
+          if (!isNaN(value)) {
+            setBasePay(value);
+          }
+        }}
+      />
     </div>
     </>
   );

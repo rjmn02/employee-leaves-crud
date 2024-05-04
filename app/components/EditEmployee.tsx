@@ -17,6 +17,7 @@ export const EditEmployee = (
     const [roleId, setRoleId] = useState(employee.roleId);
     const [employeeTypeId, setEmployeeTypeId] = useState(employee.employeeTypeId); 
     const [loading, setLoading] = useState(false);
+    const [basePay, setBasePay] = useState(employee.basePay);
 
   useEffect(() => {
     setFirstName(employee.firstName);
@@ -29,6 +30,7 @@ export const EditEmployee = (
     setCountry(employee.country);
     setRoleId(employee.roleId);
     setEmployeeTypeId(employee.employeeTypeId);
+    setBasePay(employee.basePay);
   }, [employee]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement> ) => {
@@ -51,7 +53,8 @@ export const EditEmployee = (
           province,
           country,
           roleId,
-          employeeTypeId
+          employeeTypeId,
+          basePay
         }),
       });
       
@@ -82,6 +85,7 @@ export const EditEmployee = (
     setCountry('');
     setRoleId(0);
     setEmployeeTypeId(0);
+    setBasePay(0);
   };
 
   return (
@@ -103,6 +107,7 @@ export const EditEmployee = (
                   country={country}
                   roleId={roleId}
                   employeeTypeId={employeeTypeId}
+                  basePay={basePay}
                   setFirstName={setFirstName}
                   setMiddleName={setMiddleName}
                   setLastName={setLastName}
@@ -113,6 +118,7 @@ export const EditEmployee = (
                   setCountry={setCountry}
                   setRoleId={setRoleId}
                   setEmployeeTypeId={setEmployeeTypeId}
+                  setBasePay={setBasePay}
                 />
 
                 <div className="modal-action">

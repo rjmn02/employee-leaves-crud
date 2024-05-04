@@ -43,6 +43,7 @@ const EmployeeList = () => {
             <th style={{ color: 'white' }}>Email</th>
             <th style={{ color: 'white' }}>Full Address</th>
             <th style={{ color: 'white' }}>Role</th>
+            <th style={{ color: 'white' }}>Base Pay</th>
             <th style={{ color: 'white' }}>Employee Type</th>
             <th style={{ color: 'white' }}>Actions</th>
           </tr>
@@ -59,6 +60,7 @@ const EmployeeList = () => {
               <br />
               <span className="badge badge-ghost  badge-sm min-w-[ch20]">{employee.Role.Department.name}</span>  
             </td>
+            <td>PHP {employee.basePay}</td>
             <td>{employee.EmployeeType.name}</td>
             <td className='flex gap-4 '>              
               <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(employee)} />

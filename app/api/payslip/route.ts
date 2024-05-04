@@ -11,4 +11,6 @@ export async function POST(req: NextRequest) {
   const payslip = await prisma.payslip.create({ 
     data: data 
   });
+
+  return NextResponse.json(payslip);
 }
