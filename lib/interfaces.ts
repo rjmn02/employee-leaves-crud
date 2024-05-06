@@ -179,3 +179,17 @@ export interface PayheadType {
   name: string;
   Payhead: Payhead[];
 }
+
+export interface PayheadFormProps {
+  payheadTypeId: number;
+  employeeId: number;
+  description: string;
+  amount: number;
+  effectiveDate: string;
+  
+  setPayheadTypeId: (value: number) => void;
+  setEmployeeId: (value: number) => void;
+  setDescription: (value: string) => void;
+  setAmount: (value: number) => void;
+  setEffectiveDate: (value: string) => void;
+}
