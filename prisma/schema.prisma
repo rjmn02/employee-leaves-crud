@@ -98,8 +98,8 @@ model Payroll {
   cutoffStartDate DateTime    @db.Date
   cutoffEndDate   DateTime    @db.Date
   dateCreated     DateTime    @db.Date
-  employeeeId     Int
-  Employee        Employee    @relation(fields: [employeeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeId     Int
+  Employee        Employee    @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   PayrollType     PayrollType @relation(fields: [payrollTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Payslip         Payslip[]
 }

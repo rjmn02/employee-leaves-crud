@@ -126,3 +126,56 @@ export interface EmployeeFormProps {
   setEmployeeTypeId: (value: number) => void;
   setBasePay: (value: number) => void;
 }
+
+export interface GovermentContribution{
+  id: number;
+  employeeId: number;
+  sss: number;
+  pagIbig: number;
+  philHealth: number;
+  totalAmount: number;
+  Employee: Employee;
+}
+
+export interface Payhead{
+  id: number;
+  payheadTypeId: number;
+  employeeId: number;
+  description: string;
+  amount: number;
+  effectiveDate: string;
+  Employee: Employee;
+  PayheadType: PayheadType;
+}
+
+export interface Payslip{
+  id: number,
+  payrollId: number,
+  totalDeduction: number,
+  totalEarnings: number,
+  netPay: number,
+  PayRoll: PayRoll;
+}
+export interface PayRoll {
+  id: number;
+  payrollTypeId: number;
+  cutoffStartDate: string;
+  cutoffEndDate: string;
+  dateCreated: string;
+  employeeId: number;
+  Employee: Employee;
+  PayrollType: PayrollType[];
+  Payslip: Payslip[];
+}
+
+export interface PayrollType {
+  id: number;
+  name: string;
+  Payroll: PayRoll[];
+}
+
+export interface PayheadType {
+  id: number;
+  name: string;
+  Payhead: Payhead[];
+}

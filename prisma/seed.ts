@@ -1,3 +1,4 @@
+import { computePagIbig, computePhilHealth, computeSSS } from "../lib/calculators";
 import prisma from "../lib/prisma";
 
 async function main() {
@@ -39,7 +40,20 @@ async function main() {
     "Technical Support",
     "Quality Assurance Analyst"
   ];
+
+  const payHeadTypes = [
+    "Deduction",
+    "Earnings"
+  ];
+
+  const payrollTypes = [
+    "Monthly",
+    "Bi-weekly"
+  ]
+  
+  
   //placeholder values
+
   const employees = [
     {
       firstName: 'John',
@@ -111,37 +125,43 @@ async function main() {
   const govCons = [
     {
       employeeId: 1,
-      sss: 0,
-      pagIbig: 0,
-      philHealth: 0,
-      totalAmount: 0
+      //50000
+      sss: computeSSS(50000),
+      pagIbig: computePagIbig(50000),
+      philHealth: computePhilHealth(50000),
+      totalAmount: computeSSS(50000) + computePagIbig(50000) + computePhilHealth(50000)
     },
     {
       employeeId: 2,
-      sss: 0,
-      pagIbig: 0,
-      philHealth: 0,
-      totalAmount: 0
+      //42000
+      sss: computeSSS(42000),
+      pagIbig: computePagIbig(42000),
+      philHealth: computePhilHealth(42000),
+      totalAmount: computeSSS(42000) + computePagIbig(42000) + computePhilHealth(42000)
     },
     {
       employeeId: 3,
-      sss: 0,
-      pagIbig: 0,
-      philHealth: 0,
-      totalAmount: 0
+      //40000
+      sss: computeSSS(40000),
+      pagIbig: computePagIbig(40000),
+      philHealth: computePhilHealth(40000),
+      totalAmount: computeSSS(40000) + computePagIbig(40000) + computePhilHealth(40000)
     },
     {
       employeeId: 4,
-      sss: 0,
-      pagIbig: 0,
-      philHealth: 0,
-      totalAmount: 0
+      //26890
+      sss: computeSSS(26890),
+      pagIbig: computePagIbig(26890),
+      philHealth: computePhilHealth(26890),
+      totalAmount: computeSSS(26890) + computePagIbig(26890) + computePhilHealth(26890)
     },
     {
       employeeId: 5,
-      sss: 0,
-      pagIbig: 0,
-      philHealth: 0,
+      //18900
+      sss: computeSSS(18900),
+      pagIbig: computePagIbig(18900),
+      philHealth: computePhilHealth(18900),
+      totalAmount: computeSSS(18900) + computePagIbig(18900) + computePhilHealth(18900)
     },
   ];
 
@@ -198,6 +218,14 @@ async function main() {
       leaveId: 4
     },
   ];
+
+  for (const type of payHeadTypes) {
+    await prisma.payheadType.create({ data: { name: type } });
+  }
+
+  for (const type of payrollTypes) {
+    await prisma.payrollType.create({ data: { name: type } });
+  }
   
   for (const type of employeeTypes) {
     await prisma.employeeType.create({ data: { name: type } });
@@ -286,6 +314,9 @@ async function main() {
     await prisma.signatory.create({ data: signatory });
   }
 
+  for (const govCon of govCons) {
+    await prisma.governmentContribution.create({ data: govCon });
+  }
 }
 
 
