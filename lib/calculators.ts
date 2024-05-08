@@ -53,9 +53,3 @@ export const computePagIbig = (basePay: number) => {
   validateSalary(basePay);
   return basePay * 0.02;
 }
-
-export const computeNetPay = 
-({basePay, totalDeduction, totalBonus, governmentContribution}: 
-  {basePay: number, totalDeduction: number, totalBonus: number,governmentContribution: number}): number => {
-  return basePay - totalDeduction + totalBonus - governmentContribution;
-}

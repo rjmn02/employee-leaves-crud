@@ -193,3 +193,17 @@ export interface PayheadFormProps {
   setAmount: (value: number) => void;
   setEffectiveDate: (value: string) => void;
 }
+
+export interface PayrollFormProps {
+  payrollTypeId: number,
+  employeeId: number,
+  cutoffStartDate: string,
+  cutoffEndDate: string,
+  dateCreated: string
+  
+  setPayrollTypeId: (value: number) => void;
+  setEmployeeId: (value: number) => void;
+  setCutoffStartDate: (value: string) => void;
+  setCutoffEndDate: (value: string) => void;
+  setDateCreated: (value: string) => void;
+}

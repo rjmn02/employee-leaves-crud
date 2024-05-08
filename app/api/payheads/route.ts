@@ -2,7 +2,11 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const payheads = await prisma.payhead.findMany();
+  const payheads = await prisma.payhead.findMany({
+    include: {
+      PayheadType: true
+    }
+  });
 
   return NextResponse.json(payheads);
 }

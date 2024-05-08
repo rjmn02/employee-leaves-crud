@@ -4,9 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, {params} : {params: {id: string}}) {
   const payheadId = parseInt(params.id);
   const payhead = await prisma.payhead.findUnique({
+    include: {
+      PayheadType: true
+    },
     where: {
       id: payheadId
-    }
+    },
   });
 
   return NextResponse.json(payhead);
