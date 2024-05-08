@@ -22,7 +22,7 @@ export const AddPayroll = () => {
     e.preventDefault();
 
     try {
-      const genPayroll = await fetch('/api/payrolls', {
+      const genPayroll = await fetch('/api/payroll', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -35,6 +35,10 @@ export const AddPayroll = () => {
           dateCreated: `${dateCreated}T00:00:00.000Z`
         })
       });
+
+      if(genPayroll.ok){
+        alert('Payroll Generated');
+      }
       
     } catch (error: any) {
       console.log(error);

@@ -17,6 +17,14 @@ export const AddPayhead = () => {
     fetchPayheadTypes();
   }, []);
 
+  const resetForm = () => {
+    setEmployeeId(0);
+    setPayheadTypeId(0);
+    setDescription('');
+    setAmount(0);
+    setEffectiveDate('');
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!employeeId || !payheadTypeId || !description || !amount || !effectiveDate) {
@@ -38,9 +46,10 @@ export const AddPayhead = () => {
         })
       });
       if (res.ok) {
+        resetForm();
         alert('Payhead added successfully');
       }
-    } catch (error) {
+    } catch (error) {  
       console.log(error);
     }
   }

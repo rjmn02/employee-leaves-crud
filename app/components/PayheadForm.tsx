@@ -17,6 +17,7 @@ export const PayheadForm: React.FC<PayheadFormProps> = ({
   
   const {data: employees, fetchData: fetchEmployees} = useFetch('/api/employees');
   const {data: payheadType, fetchData: fetchPayheadTypes} = useFetch('/api/payheadtypes');
+
   useEffect(() => {
     fetchEmployees();
     fetchPayheadTypes();
@@ -59,10 +60,9 @@ export const PayheadForm: React.FC<PayheadFormProps> = ({
           onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} 
         />
 
-        <label className="block mb-2"></label>
+        <label className="block mt-2">Amount (PHP)</label>
         <input
           type="text"
-          placeholder='Amount (PHP)'
           className="input input-bordered input-primary w-full p-1.5"
           value={amount}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {

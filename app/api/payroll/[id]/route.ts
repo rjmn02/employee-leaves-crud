@@ -26,11 +26,20 @@ export async function PUT(req: NextRequest, {params}: {params: {id: string}}) {
 
 export async function DELETE(req: NextRequest, {params}: {params: {id: string}}) {
   const payrollId = parseInt(params.id);
-  const deletedPayroll = await prisma.payroll.delete({
+  const deletedPayroll = prisma.payroll.delete({
     where: {
       id: payrollId
     }
   });
+
+  const deletedPayslip = prisma.payslip.deleteMany({
+    where: {
+      payrollId: payrollId
+    }
+  });
+
+  
+  await prisma.$transaction([deletedPayslip, deletedPayroll]);
 
   return NextResponse.json(deletedPayroll, {status: 200});
 }

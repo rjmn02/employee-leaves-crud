@@ -7,6 +7,7 @@ import SignatoryList from "./SignatoryList";
 import { AddSignatory } from "./AddSignatory";
 import { PayheadForm } from "./PayheadForm";
 import { AddPayhead } from "./AddPayhead";
+import { AddPayroll } from "./AddPayroll";
 
 export default function Management(){
   return(
@@ -14,22 +15,31 @@ export default function Management(){
       <div className='text-center my-5 flex flex-col gap-4'>
         <h1 className='text-4xl font-bold padding'>Employee Management System</h1>
       </div>
+
       <h2 className='text-2xl font-bold padding'>Employee List</h2>
       <EmployeeList/>
+
       <h2 className='text-2xl font-bold padding'>Employee Leave List</h2>
       <LeaveList/>
+
       <h2 className='text-2xl font-bold padding'>SIGNATORY List</h2>
       <SignatoryList/>
+
       <br />
       <h2 className='text-2xl font-bold padding'>ADD LEAVE FORM</h2>
       <AddLeave/>
+
       <h2 className='text-2xl font-bold padding'>ADD EMPLOYEE FORM</h2>
       <AddEmployee/>
+
       <h2 className='text-2xl font-bold padding'>ADD SIGNATORY FORM</h2>
       <AddSignatory/>
 
       <h2 className='text-2xl font-bold padding'>ADD PAYHEAD FORM</h2>
       <AddPayhead/>
+
+      <h2 className='text-2xl font-bold padding'>ADD PAYROLL FORM</h2>
+      <AddPayroll/>
     </main>
 
   );

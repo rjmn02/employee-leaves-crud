@@ -55,28 +55,25 @@ export const PayrollForm: React.FC<PayrollFormProps> = ({
           ))}
         </select>
 
-        <label className="block mb-2"></label>
+        <label className="block mt-2">Cutoff Start Date</label>
         <input
           type="date"
-          placeholder='Cutoff Start Date'
           className="input input-bordered input-primary w-full p-1.5"
           value={cutoffStartDate}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setCutoffStartDate(e.target.value)}
         />
 
-        <label className="block mb-2"></label>
+        <label className="block mt-2">Cutoff End Date</label>
         <input
           type="date"
-          placeholder='Cutoff End Date'
           className="input input-bordered input-primary w-full p-1.5"
           value={cutoffEndDate}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setCutoffEndDate(e.target.value)}
         />
 
-        <label className="block mb-2"></label>
+        <label className="block mt-2">Date Created</label>
         <input
           type="date"
-          placeholder='Date Created'
           className="input input-bordered input-primary w-full p-1.5"
           value={dateCreated}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setDateCreated(e.target.value)}

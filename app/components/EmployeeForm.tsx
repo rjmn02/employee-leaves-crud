@@ -127,10 +127,9 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
         ))}
       </select>
 
-      <label className="block mb-2"></label>
+      <label className="block mt-2">Base Pay (PHP)</label>
       <input
         type="text"
-        placeholder='Base Pay (PHP)'
         className="input input-bordered input-primary w-full p-1.5"
         value={basePay}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {

@@ -19,12 +19,6 @@ export async function POST(req: NextRequest) {
   const newPayroll = await prisma.payroll.create({
     data: data
   });
-
-
-  //get employee
-  //get govcon
-  //get payheads
-
   const employee = await prisma.employee.findUnique({
     where: {
       id: newPayroll.employeeId
@@ -40,46 +34,61 @@ export async function POST(req: NextRequest) {
   const payheads = await prisma.payhead.findMany({
     where: {
       employeeId: newPayroll.employeeId
+    },
+    include: {
+      PayheadType: true
     }
   });
+
+  const totalGovContribution = (govcons: any): number => {
+    let total: number = 0;
+    for(const govcon of govcons) {
+      total += govcon.totalAmount;
+    }
+
+    return total;
+  }
 
   const totalDeduction = (payheads: any): number => {
     let total: number = 0;
     for(const payhead of payheads){
-      if(payhead.PayheadType.name == 'Deduction' && payhead.effectiveDate < newPayroll.cutoffEndDate){
+      const effectiveDate = new Date(payhead.effectiveDate);
+      const cutoffStartDate = new Date(newPayroll.cutoffStartDate);
+      const cutoffEndDate = new Date(newPayroll.cutoffEndDate);
+      if(payhead.PayheadType.name == 'Deduction' && (effectiveDate > cutoffStartDate && effectiveDate < cutoffEndDate)){
         total += payhead.amount;
       }
-    }
-
-    for(const govcon of govcons) {
-      total += govcon.totalAmount || 0;
     }
     
     return total;
   };
+
   const totalEarning = (payheads: any): number => {
     let total: number = 0;
     for(const payhead of payheads){
-      if(payhead.PayheadType.name == 'Earning' && payhead.effectiveDate < newPayroll.cutoffEndDate){
+      const effectiveDate = new Date(payhead.effectiveDate);
+      const cutoffStartDate = new Date(newPayroll.cutoffStartDate);
+      const cutoffEndDate = new Date(newPayroll.cutoffEndDate);
+      if(payhead.PayheadType.name == 'Earnings' && (effectiveDate > cutoffStartDate && effectiveDate < cutoffEndDate)){
         total += payhead.amount;
       }
     }
     
     return total;
   }
-  
 
   const newPayslip = await prisma.payslip.create({
     data: {
       payrollId: newPayroll.id,
       totalDeduction: totalDeduction(payheads),
       totalEarning: totalEarning(payheads),
-      netPay: employee 
-      ? employee.basePay + (totalDeduction(payheads) - totalEarning(payheads))
+      netPay: (employee) 
+      ? (employee.basePay + totalEarning(payheads) - totalDeduction(payheads) - totalGovContribution(govcons))
       : 0
     }
   })
 
+
   
-  return NextResponse.json(newPayroll);
+  return NextResponse.json(newPayslip);
 }
