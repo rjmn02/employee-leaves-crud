@@ -5,12 +5,17 @@ import { Employee } from '@/lib/interfaces';
 import { EditEmployee } from './EditEmployee';
 import { deleteEmployee } from '@/lib/deletionHandlers';
 import { useFetch } from '@/lib/fetchHandler';
+import { IoReceiptSharp } from "react-icons/io5";
+import prisma from '@/lib/prisma';
+import { PayslipList } from './PayslipList';
 
 
 const EmployeeList = () => {
   const { data :employees, fetchData: fetchEmployees } = useFetch('/api/employees');
   
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPayslipDialogOpen, setIsPayslipDialogOpen] = useState(false);
+
   const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
 
   useEffect(() => {
@@ -33,6 +38,12 @@ const EmployeeList = () => {
     fetchEmployees();
   };
 
+  const handleViewPayslipDetails = async (employee: Employee) => {
+    setIsPayslipDialogOpen(true);
+    setCurrentEmployee(employee);
+
+  }
+
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -43,6 +54,7 @@ const EmployeeList = () => {
             <th style={{ color: 'white' }}>Email</th>
             <th style={{ color: 'white' }}>Full Address</th>
             <th style={{ color: 'white' }}>Role</th>
+            <th style={{ color: 'white' }}>Base Pay</th>
             <th style={{ color: 'white' }}>Employee Type</th>
             <th style={{ color: 'white' }}>Actions</th>
           </tr>
@@ -59,10 +71,12 @@ const EmployeeList = () => {
               <br />
               <span className="badge badge-ghost  badge-sm min-w-[ch20]">{employee.Role.Department.name}</span>  
             </td>
+            <td>PHP {employee.basePay}</td>
             <td>{employee.EmployeeType.name}</td>
             <td className='flex gap-4 '>              
               <FaEdit  cursor='pointer' size={20} style={{ color: 'blue', marginRight: '10px' }} onClick={() => handleEditClick(employee)} />
               <MdDelete  cursor='pointer' size={20} style={{ color: 'red' }} onClick={() => handleDeleteClick(employee)} />
+              <IoReceiptSharp cursor='pointer' size={20} style={{ color: 'green' }} onClick={() => handleViewPayslipDetails(employee)} />
             </td>
           </tr>
         ))}
@@ -75,7 +89,16 @@ const EmployeeList = () => {
           isDialogOpen={isEditDialogOpen}
           setIsDialogOpen={setIsEditDialogOpen}
         />
-      )}
+        )}
+
+        {currentEmployee && (
+        <PayslipList 
+        
+          employee={currentEmployee} 
+          isDialogOpen={isPayslipDialogOpen} 
+          setIsDialogOpen={setIsPayslipDialogOpen} 
+        />
+        )}
         </div>
         );
 }
